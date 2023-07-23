@@ -155,4 +155,41 @@ Source: https://learnyousomeerlang.com/syntax-in-functions#pattern-matching
   {"it hurts!","says fgdadfgna!"}
   ```
 - Else' or 'true' branches should be "avoided" altogether: ifs are usually easier to read when you cover all logical ends rather than relying on a "catch all" clause.
--
+
+### In Case ... of
+
+- If the if expression is like a guard, a case ... of expression is like the whole function head: you can have the complex pattern matching you can use with each argument, and you can have guards on top of it!
+- For this one, we'll write the append function for sets (a collection of unique values) that we will represent as an unordered list.
+  ```erlang
+  insert(X,[]) ->
+  [X];
+  insert(X,Set) ->
+  case lists:member(X,Set) of
+  true  -> Set;
+  false -> [X|Set]
+  end.
+  ```
+- If we send in an empty set (list) and a term X to be added, it returns us a list containing only X. Otherwise, the function lists:member/2 checks whether an element is part of a list and returns true if it is, false if it is not. In the case we already had the element X in the set, we do not need to modify the list. Otherwise, we add X as the list's first element.
+  ```erlang
+  beach(Temperature) ->
+  case Temperature of
+  {celsius, N} when N >= 20, N =< 45 ->
+  'favorable';
+  {kelvin, N} when N >= 293, N =< 318 ->
+  'scientifically favorable';
+  {fahrenheit, N} when N >= 68, N =< 113 ->
+  'favorable in the US';
+  _ ->
+  'avoid beach'
+  end.
+  ```
+
+### Which to use?
+
+- The difference between function calls and case ... of are very minimal: in fact, they are represented the same way at a lower level, and using one or the other effectively has the same cost in terms of performance.
+- One difference between both is when more than one argument needs to be evaluated: function(A,B) -> ... end. can have guards and values to match against A and B, but a case expression would need to be formulated a bit like:
+  ```erlang
+  case {A,B} of
+  Pattern Guards -> ...
+  end.
+  ```
