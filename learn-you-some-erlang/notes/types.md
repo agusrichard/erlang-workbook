@@ -53,3 +53,7 @@ Source: https://learnyousomeerlang.com/types-or-lack-thereof
   is_record/3         is_reference/1      is_tuple/1
   ```
 - They can be used like any other guard expression, wherever guard expressions are allowed. You might be wondering why there is no function just giving the type of the term being evaluated (something akin to type_of(X) -> Type). The answer is pretty simple. Erlang is about programming for the right cases: you only program for what you know will happen and what you expect. Everything else should cause errors as soon as possible.
+
+### For Type Junkies
+
+- There are tools for type junkies but we'll visit them later on
