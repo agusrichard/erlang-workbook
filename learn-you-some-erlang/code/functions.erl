@@ -16,3 +16,10 @@ valid_time(_) ->
 
 right_age(X) when X > 16, X =< 114 -> true;
 right_age(_) -> false.
+
+greet(male, Name) ->
+    io:format("Hello, Mr. ~s!", [Name]);
+greet(female, Name) ->
+    io:format("Hello, Mrs. ~s!", [Name]);
+greet(_, Name) ->
+    io:format("Hello, ~s!", [Name]).
