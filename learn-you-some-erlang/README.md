@@ -7,3 +7,4 @@
 - [Starting Out For Real](./notes//starting-out-for-real.md)
 - [Modules](./notes/modules.md)
 - [Syntax in Function](./notes/syntax-in-function.md)
+- [Types](./notes/types.md)
