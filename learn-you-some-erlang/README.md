@@ -9,3 +9,4 @@
 - [Syntax in Function](./notes/syntax-in-function.md)
 - [Types](./notes/types.md)
 - [Recursion](./notes/recursion.md)
+- [Higher Order Functions](./notes/higher-order-functions.md)
