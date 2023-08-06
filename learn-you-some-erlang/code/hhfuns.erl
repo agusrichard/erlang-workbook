@@ -1,5 +1,6 @@
 -module(hhfuns).
 -compile(export_all).
+-import(recursion, [reverse/1]).
 
 one() -> 1.
 two() -> 2.
