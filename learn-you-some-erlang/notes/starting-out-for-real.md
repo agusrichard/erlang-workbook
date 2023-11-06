@@ -3,6 +3,7 @@
 Source: https://learnyousomeerlang.com/starting-out-for-real
 
 ### Numbers
+
 - In the Erlang shell, expressions have to be terminated with a period followed by whitespace (line break, a space etc.), otherwise they won't be executed.
 - Snippet:
   ```erlang
@@ -30,6 +31,7 @@ Source: https://learnyousomeerlang.com/starting-out-for-real
   ```
 
 ### Invariable Variables
+
 - The basic behavior of variables can be demonstrated with these 7 expressions (note that variables begin with an uppercase letter):
   ```erlang
   1> One.
@@ -40,7 +42,7 @@ Source: https://learnyousomeerlang.com/starting-out-for-real
   1
   4> Two = One + One.
   2
-  5> Two = 2.       
+  5> Two = 2.
   2
   6> Two = Two + 1.
   ** exception error: no match of right hand side value 3
@@ -57,10 +59,11 @@ Source: https://learnyousomeerlang.com/starting-out-for-real
   ```
 - What this operator does when mixed with variables is that if the left-hand side term is a variable and it is unbound (has no value associated to it), Erlang will automatically bind the right-hand side value to the variable on the left-hand side. The comparison will consequently succeed and the variable will keep the value in memory.
 - This behavior of the = operator is the basis of something called 'Pattern matching', which many functional programming languages have, although Erlang's way of doing things is usually regarded as more flexible and complete than alternatives.
-- The other thing the commands 1-7 told us is that variable names must begin with a capital letter. Command 7 failed because the word two had a lowercase letter to begin with. Technically, variables can start with an underscore ('_') too, but by convention their use is restricted to values you do not care about, yet you felt it was necessary to document what it contains.
+- The other thing the commands 1-7 told us is that variable names must begin with a capital letter. Command 7 failed because the word two had a lowercase letter to begin with. Technically, variables can start with an underscore ('\_') too, but by convention their use is restricted to values you do not care about, yet you felt it was necessary to document what it contains.
 - If you're testing in the shell and save the wrong value to a variable, it is possible to 'erase' that variable by using the function f(Variable).. If you wish to clear all variable names, do f()..
-  
+
 ### Atoms
+
 - There is a reason why variables names can't begin with a lowercase character: atoms. Atoms are literals, constants with their own name for value.
 - What you see is what you get and don't expect more. The atom cat means "cat" and that's it. You can't play with it, you can't change it, you can't smash it to pieces; it's cat. Deal with it.
 - While single words starting with a lowercase letter is a way to write an atom, there's more than one manner to do it:
@@ -76,11 +79,12 @@ Source: https://learnyousomeerlang.com/starting-out-for-real
   5> atom = 'atom'.
   atom
   ```
-- An atom should be enclosed in single quotes (') if it does not begin with a lower-case letter or if it contains other characters than alphanumeric characters, underscore (_), or @.
+- An atom should be enclosed in single quotes (') if it does not begin with a lower-case letter or if it contains other characters than alphanumeric characters, underscore (\_), or @.
 - Atoms are really nice and a great way to send messages or represent constants. However there are pitfalls to using atoms for too many things: an atom is referred to in an "atom table" which consumes memory (4 bytes/atom in a 32-bit system, 8 bytes/atom in a 64-bit system). The atom table is not garbage collected, and so atoms will accumulate until the system tips over, either from memory usage or because 1048577 atoms were declared.
 - This means atoms should not be generated dynamically for whatever reason; if your system has to be reliable and user input lets someone crash it at will by telling it to create atoms, you're in serious trouble. Atoms should be seen as tools for the developer because honestly, it's what they are.
 
 ### Boolean Algebra & Comparison operators
+
 - Snippet:
   ```erlang
   1> true and false.
@@ -124,15 +128,17 @@ Source: https://learnyousomeerlang.com/starting-out-for-real
   ```
 - Erlang has no such things as boolean true and false. The terms true and false are atoms, but they are integrated well enough into the language you shouldn't have a problem with that as long as you don't expect false and true to mean anything but false and true.
 - The correct ordering of each element in a comparison is the following:
-number < atom < reference < fun < port < pid < tuple < list < bit string
+  number < atom < reference < fun < port < pid < tuple < list < bit string
 
 ### Tuples
+
 - A tuple is a way to organize data. It's a way to group together many terms when you know how many there are. In Erlang, a tuple is written in the form {Element1, Element2, ..., ElementN}. As an example, you'd give me the coordinates (x,y) if you wanted to tell me the position of a point in a Cartesian graph. We can represent this point as a tuple of two terms:
   ```erlang
   1> X = 10, Y = 4.
   4
   2> Point = {X,Y}.
   {10,4}
+  % Cleared out with f()
   3> Point = {4,5}.
   {4,5}
   4> {X,Y} = Point.
@@ -142,7 +148,7 @@ number < atom < reference < fun < port < pid < tuple < list < bit string
   6> {X,_} = Point.
   {4,5}
   ```
-- The _ variable is always seen as unbound and acts as a wildcard for pattern matching. Pattern matching to unpack tuples will only work if the number of elements (the tuple's length) is the same.
+- The \_ variable is always seen as unbound and acts as a wildcard for pattern matching. Pattern matching to unpack tuples will only work if the number of elements (the tuple's length) is the same.
 - This throws an error, but it's exactly what we want! This is, again, pattern matching at work. The = operator ends up comparing {kelvin, T} and {celsius, 23.213}: even if the variable T is unbound, Erlang won't see the celsius atom as identical to the kelvin atom when comparing them. An exception is thrown which stops the execution of code. By doing so, the part of our program that expects a temperature in Kelvin won't be able to process temperatures sent in Celsius. This makes it easier for the programmer to know what is being sent around and also works as a debugging aid. A tuple which contains an atom with one element following it is called a 'tagged tuple'. Any element of a tuple can be of any type, even another tuple:
   ```erlang
   10> PreciseTemperature = {celsius, 23.213}.
@@ -152,6 +158,7 @@ number < atom < reference < fun < port < pid < tuple < list < bit string
   ```
 
 ### Lists
+
 - Lists can contain anything! Numbers, atoms, tuples, other lists; your wildest dreams in a single structure. The basic notation of a list is [Element1, Element2, ..., ElementN] and you can mix more than one type of data in it:
   ```erlang
   1> [1, 2, 3, {numbers,[4,5,6]}, 5.34, atom].
@@ -230,6 +237,7 @@ number < atom < reference < fun < port < pid < tuple < list < bit string
 - Using the form [1 | 2] gives what we call an 'improper list'. Improper lists will work when you pattern match in the [Head|Tail] manner, but will fail to be used with standard functions of Erlang (even length()). This is because Erlang expects proper lists. Proper lists end with an empty list as their last cell. When declaring an item like [2], the list is automatically formed in a proper manner. As such, [1|[2]] would work! Improper lists, although syntactically valid, are of very limited use outside of user-defined data structures.
 
 ### List Comprehensions
+
 - List comprehensions in Erlang are about building sets from other sets. Given the set {2n : n in L} where L is the list [1,2,3,4], the Erlang implementation would be:
   ```erlang
   1> [2*N || N <- [1,2,3,4]].
@@ -260,8 +268,8 @@ number < atom < reference < fun < port < pid < tuple < list < bit string
   ```
 - If an element of the list 'Weather' doesn't match the {X, fog} pattern, it's simply ignored in the list comprehension whereas the = operator would have thrown an exception.
 
-
 ### Bit Syntax
+
 - Bit syntax encloses binary data between << and >>, splits it in readable segments, and each segment is separated by a comma. A segment is a sequence of bits of a binary (not necessarily on a byte boundary, although this is the default behaviour). Say we want to store an orange pixel of true color (24 bits). If you've ever checked colors in Photoshop or in a CSS style sheet for the web, you know the hexadecimal notation has the format #RRGGBB. A tint of orange is #F09A29 in that notation, which could be expanded in Erlang to:
   ```erlang
   1> Color = 16#F09A29.
@@ -282,8 +290,5 @@ number < atom < reference < fun < port < pid < tuple < list < bit string
   ```
 
 ### Binary Comprehensions
+
 - Binary comprehensions are to bit syntax what list comprehensions are to lists: a way to make code short and concise. They are relatively new in the Erlang world as they were there in previous revisions of Erlang, but required a module implementing them to use a special compile flag in order to work.
-
-
-
-
