@@ -16,3 +16,4 @@ How to install Erlang on Mac:
 - If you type something like li and then press "tab", the shell will have completed the terms for you to lists:. Press tab again, and the shell will suggest you many functions to use after
 - `help().` to get help
 - `q().` to quit
+- `f().` to clear used variables.
