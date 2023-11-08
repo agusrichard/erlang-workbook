@@ -5,6 +5,7 @@ Source: https://learnyousomeerlang.com/modules#what-are-modules
 ### What are modules
 
 - Every other function defined in a module you will ever use needs to be called with the form Module:Function(Arguments).
+- Modules are a bunch of functions regrouped in a single file, under a single name.
 - Snippet:
   ```erlang
   1> erlang:element(2, {a,b,c}).
