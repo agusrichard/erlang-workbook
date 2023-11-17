@@ -37,7 +37,7 @@ is_she_hot(Name) ->
     Hotness =
         if
             Name == "Damara" -> "She's absolutely hot";
-            Name == "Astiningtiyas" -> "Smoking hot indeed";
+            Name == "Astiningtiyas" -> "Smoking hot indeed, no doubt";
             true -> "Are you kidding me? She's the hottest of them all"
         end,
     io:format("OMG, " ++ Hotness ++ "!").
