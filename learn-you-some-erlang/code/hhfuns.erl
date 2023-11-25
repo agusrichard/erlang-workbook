@@ -103,3 +103,5 @@ filter2(Pred, L) ->
         end
     end,
     reverse(fold(F, [], L)).
+
+shocked() -> io:format("Shocked").
