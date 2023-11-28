@@ -224,3 +224,48 @@ called as binary_to_list("heh, already a list")
 - It is important to know that the protected part of an exception can't be tail recursive. The VM must always keep a reference there in case there's an exception popping up.
 - Because the try ... catch construct without the of part has nothing but a protected part, calling a recursive function from there might be dangerous for programs supposed to run for a long time (which is Erlang's niche). After enough iterations, you'll go out of memory or your program will get slower without really knowing why. By putting your recursive calls between the of and catch, you are not in a protected part and you will benefit from Last Call Optimisation.
 - Some people use try ... of ... catch rather than try ... catch by default to avoid unexpected errors of that kind, except for obviously non-recursive code with results that won't be used by anything. You're most likely able to make your own decision on what to do!
+
+### Wait, there's more!
+
+- That structure is defined as the keyword catch and basically captures all types of exceptions on top of the good results. It's a bit of a weird one because it displays a different representation of exceptions:
+
+  ```erlang
+  1> catch throw(whoa).
+  whoa
+  2> catch exit(die).
+  {'EXIT',die}
+  3> catch 1/0.
+  {'EXIT',{badarith,[{erlang,'/',[1,0]},
+  {erl_eval,do_apply,5},
+  {erl_eval,expr,5},
+  {shell,exprs,6},
+  {shell,eval_exprs,6},
+  {shell,eval_loop,3}]}}
+  4> catch 2+2.
+  4
+  ```
+
+- What we can see from this is that throws remain the same, but that exits and errors are both represented as {'EXIT', Reason}. That's due to errors being bolted to the language after exits (they kept a similar representation for backwards compatibility).
+- The way to read this stack trace is as follows:
+  ```erlang
+  5> catch doesnt:exist(a,4).
+  {'EXIT',{undef,[{doesnt,exist,[a,4]},
+  {erl_eval,do_apply,5},
+  {erl_eval,expr,5},
+  {shell,exprs,6},
+  {shell,eval_exprs,6},
+  {shell,eval_loop,3}]}}
+  ```
+  - The type of error is undef, which means the function you called is not defined (see the list at the beginning of this chapter)
+  - The list right after the type of error is a stack trace
+  - The tuple on top of the stack trace represents the last function to be called ({Module, Function, Arguments}). That's your undefined function.
+  - The tuples after that are the functions called before the error. This time they're of the form {Module, Function, Arity}.
+  - That's all there is to it, really.
+- Problems with keyword catch:
+  - The first of it is operator precedence:
+  ```erlang
+  10> X = catch 4+2.
+  * 1: syntax error before: 'catch'
+  10> X = (catch 4+2).
+  6
+  ```
