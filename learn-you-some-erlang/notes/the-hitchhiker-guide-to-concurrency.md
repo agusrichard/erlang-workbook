@@ -2,5 +2,4 @@
 
 Source: https://learnyousomeerlang.com/the-hitchhikers-guide-to-concurrency
 
-Let's learn
-Play with my niece
+## Don't Panic
