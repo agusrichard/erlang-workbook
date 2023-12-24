@@ -11,3 +11,4 @@
 - [Recursion](./notes/recursion.md)
 - [Higher Order Functions](./notes/higher-order-functions.md)
 - [Errors and Exceptions](./notes/errors-and-exceptions.md)
+- The Hitchhiker Guide to Concurrency 
