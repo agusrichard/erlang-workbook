@@ -9,4 +9,4 @@ greet_and_add_two(X) ->
     hello(),
     add(X, 2).
 
-greet_damara() -> io:format("I love Damara indeed").
+greet_damara() -> io:format("I love Damara indeed!").
